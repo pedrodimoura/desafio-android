@@ -20,13 +20,36 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug {}
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            versionNameSuffix "-debug"
+        }
 
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    flavorDimensions "environment"
+
+    productFlavors {
+        sandbox {
+            dimension "environment"
+            buildConfigField "String", "BASE_URL", "\"http://careers.picpay.com/tests/mobdev/\""
+            versionNameSuffix "-sandbox"
+        }
+        production {
+            dimension "environment"
+            buildConfigField "String", "BASE_URL", "\"http://careers.picpay.com/tests/mobdev/\""
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     compileOptions {
@@ -68,6 +91,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
     implementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
 
     implementation "com.squareup.picasso:picasso:$picasso_version"
     implementation "de.hdodenhof:circleimageview:$circleimageview_version"

@@ -2,13 +2,14 @@ package com.picpay.desafio.android
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import com.picpay.desafio.android.features.contacts.data.datasource.remote.PicPayUserService
-import com.picpay.desafio.android.features.contacts.data.datasource.remote.model.User
+import com.picpay.desafio.android.features.contacts.data.datasource.remote.model.UserResponsePayload
+import com.picpay.desafio.android.features.contacts.data.datasource.remote.service.PicPayUserService
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import retrofit2.Call
-import retrofit2.Response
 
+@ExperimentalCoroutinesApi
 class ExampleServiceTest {
 
     private val api = mock<PicPayUserService>()
@@ -16,13 +17,11 @@ class ExampleServiceTest {
     private val service = ExampleService(api)
 
     @Test
-    fun exampleTest() {
+    fun exampleTest() = runBlockingTest {
         // given
-        val call = mock<Call<List<User>>>()
-        val expectedUsers = emptyList<User>()
+        val expectedUsers = emptyList<UserResponsePayload>()
 
-        whenever(call.execute()).thenReturn(Response.success(expectedUsers))
-        whenever(api.getUsers()).thenReturn(call)
+        whenever(api.getUsers()).thenReturn(mock())
 
         // when
         val users = service.example()
