@@ -1,31 +1,32 @@
 package com.picpay.desafio.android.features.contacts.ui.adapter
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.picpay.desafio.android.R
-import com.picpay.desafio.android.features.contacts.data.datasource.remote.model.User
+import com.picpay.desafio.android.common.ui.gone
+import com.picpay.desafio.android.common.ui.visible
+import com.picpay.desafio.android.databinding.ListItemUserBinding
+import com.picpay.desafio.android.features.contacts.domain.model.User
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.list_item_user.view.*
 
 class UserListItemViewHolder(
-    itemView: View
-) : RecyclerView.ViewHolder(itemView) {
+    private val listItemUserBinding: ListItemUserBinding
+) : RecyclerView.ViewHolder(listItemUserBinding.root) {
 
     fun bind(user: User) {
-        itemView.name.text = user.name
-        itemView.username.text = user.username
-        itemView.progressBar.visibility = View.VISIBLE
+        listItemUserBinding.name.text = user.name
+        listItemUserBinding.username.text = user.username
+        listItemUserBinding.progressBar.visible()
         Picasso.get()
             .load(user.img)
             .error(R.drawable.ic_round_account_circle)
-            .into(itemView.picture, object : Callback {
+            .into(listItemUserBinding.picture, object : Callback {
                 override fun onSuccess() {
-                    itemView.progressBar.visibility = View.GONE
+                    listItemUserBinding.progressBar.gone()
                 }
 
                 override fun onError(e: Exception?) {
-                    itemView.progressBar.visibility = View.GONE
+                    listItemUserBinding.progressBar.gone()
                 }
             })
     }
