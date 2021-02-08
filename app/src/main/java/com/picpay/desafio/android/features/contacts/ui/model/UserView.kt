@@ -1,6 +1,6 @@
-package com.picpay.desafio.android.features.contacts.domain.model
+package com.picpay.desafio.android.features.contacts.ui.model
 
-data class User(
+data class UserView(
     val img: String = "",
     val name: String = "",
     val id: Int = 0,
