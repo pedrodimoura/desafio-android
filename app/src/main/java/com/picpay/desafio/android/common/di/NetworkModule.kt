@@ -1,5 +1,6 @@
 package com.picpay.desafio.android.common.di
 
+import com.google.gson.GsonBuilder
 import com.picpay.desafio.android.BuildConfig
 import com.picpay.desafio.android.common.data.datasource.remote.adapter.NetworkResponseCallFactory
 import com.picpay.desafio.android.common.data.datasource.remote.interceptor.CacheConfiguration
@@ -17,13 +18,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
 
+const val DEFAULT_GSON = "default-gson"
 const val DEFAULT_CLIENT = "default-client"
 const val DEFAULT_RETROFIT = "default-retrofit"
 private const val DEFAULT_CACHE = "default-cache"
 private const val MAX_CACHE_SIZE: Long = 10 * 1024 * 1024
 private const val DEFAULT_CACHE_DIR_NAME = "offline-cache"
 
-val networkModule = module(createdAtStart = true) {
+val networkModule = module {
+    single(named(DEFAULT_GSON)) { GsonBuilder().create() }
     factory { (cacheConfiguration: CacheConfiguration) ->
         HttpOfflineCacheInterceptor(cacheConfiguration)
     }
@@ -50,7 +53,7 @@ val networkModule = module(createdAtStart = true) {
             .baseUrl(BuildConfig.BASE_URL)
             .client(get(named(DEFAULT_CLIENT)))
             .addCallAdapterFactory(NetworkResponseCallFactory())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(get(named(DEFAULT_GSON))))
             .build()
     }
 }

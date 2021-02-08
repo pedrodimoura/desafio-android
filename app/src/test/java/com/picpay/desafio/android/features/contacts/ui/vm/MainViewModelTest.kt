@@ -10,6 +10,7 @@ import com.picpay.desafio.android.common.domain.Result
 import com.picpay.desafio.android.features.contacts.domain.model.User
 import com.picpay.desafio.android.features.contacts.domain.repository.UserRepository
 import com.picpay.desafio.android.features.contacts.ui.model.MainViewState
+import com.picpay.desafio.android.features.contacts.ui.model.UserView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -49,8 +50,9 @@ class MainViewModelTest {
 
     @Test
     fun shouldFetchUsersSucceed() = runBlockingTest {
-        val expected = emptyList<User>()
-        whenever(userRepository.getUsers()).thenReturn(Result.Success(expected))
+        val expected = emptyList<UserView>()
+        val resultReturn = emptyList<User>()
+        whenever(userRepository.getUsers()).thenReturn(Result.Success(resultReturn))
 
         viewModel.fetchUsersLiveData.observeForever(observer)
         viewModel.fetchUsers()

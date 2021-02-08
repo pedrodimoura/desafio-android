@@ -3,7 +3,11 @@ package com.picpay.desafio.android.common.data.datasource.remote.adapter
 import com.picpay.desafio.android.common.data.datasource.remote.model.NetworkError
 import com.picpay.desafio.android.common.data.datasource.remote.model.NetworkResponse
 import okhttp3.Request
-import retrofit2.*
+import okio.Timeout
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.HttpException
+import retrofit2.Response
 
 internal class NetworkResponseCall<T : Any>(
     private val delegate: Call<T>
@@ -85,4 +89,6 @@ internal class NetworkResponseCall<T : Any>(
     override fun isCanceled(): Boolean = delegate.isCanceled
 
     override fun request(): Request = delegate.request()
+
+    override fun timeout(): Timeout = delegate.timeout()
 }

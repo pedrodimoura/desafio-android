@@ -22,10 +22,10 @@ class UserRepositoryImpl(
     private fun handleSuccess(networkResponse: List<UserResponsePayload>) =
         Result.Success(networkResponse.map { userResponsePayload ->
             User(
-                userResponsePayload.img,
-                userResponsePayload.name,
-                userResponsePayload.id,
-                userResponsePayload.username
+                img = userResponsePayload.img ?: "",
+                name = userResponsePayload.name ?: "",
+                id = userResponsePayload.id ?: 0,
+                username = userResponsePayload.username ?: ""
             )
         })
 
